@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FrescoComparison</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+    <string-array name="loader_type">
+        <item>Fresco</item>
+        <item>Universal Image Loader</item>
+        <item>Picasso</item>
+    </string-array>
+
+</resources>
