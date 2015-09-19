@@ -3,6 +3,8 @@ package com.desmond.frescocomparison;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Debug;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,14 @@ public class MainActivity extends Activity {
     private List<Loader> mLoaders = null;
     private Recorder mRecorder = null;
     private Runtime mRuntime = null;
+    private Handler mHandler = null;
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mRecorder.record(getCurrentTime()-start, getJavaHeapSize()-javaHeapStartSize, getNativeHeapSize()-nativeHeapStartSize);
+            mHandler.postDelayed(this, 500);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,7 @@ public class MainActivity extends Activity {
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
 
+        mHandler = new Handler(Looper.getMainLooper());
         mRuntime = Runtime.getRuntime();
         container = (FrameLayout) findViewById(R.id.container);
         TextView statRecorder = (TextView) findViewById(R.id.stat_recorder);
@@ -60,11 +71,15 @@ public class MainActivity extends Activity {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mLoaders.get(lastPosition).stop();
+                mHandler.removeCallbacks(mRunnable);
+                if(lastPosition!=0)mLoaders.get(lastPosition-1).stop();
                 container.removeAllViews();
-                container.addView(mLayouts.get(position));
-                mLoaders.get(position).loadImage(mLayouts.get(position));
                 lastPosition = position;
+                mRecorder.record(0, 0, 0);
+                if(position == 0) return;
+
+                container.addView(mLayouts.get(position-1));
+                mLoaders.get(position-1).loadImage(mLayouts.get(position-1));
             }
 
             @Override
@@ -74,10 +89,6 @@ public class MainActivity extends Activity {
         });
 
         mRecorder.record(0, 0, 0);
-    }
-
-    private void initFresco(){
-
     }
 
     private void initLayouts() {
@@ -103,19 +114,25 @@ public class MainActivity extends Activity {
 
         @Override
         public void onStart() {
-            start = System.currentTimeMillis();
+            start = getCurrentTime();
             javaHeapStartSize = getJavaHeapSize();
             nativeHeapStartSize = getNativeHeapSize();
+            mHandler.postDelayed(mRunnable, 500);
         }
 
         @Override
         public void onFinish(int success, int fail) {
-            end = System.currentTimeMillis();
+            end = getCurrentTime();
+            mHandler.removeCallbacks(mRunnable);
             Log.i(TAG, "MyLoaderCallback->onFinish --info log-- " + tag + " total time: " + (end - start) + "ms");
             Log.i(TAG, "MyLoaderCallback->onFinish --info log-- " + tag + " java heap change: " + (getJavaHeapSize() - javaHeapStartSize) + "Kb");
             Log.i(TAG, "MyLoaderCallback->onFinish --info log-- " + tag + " native heap change: " + (getNativeHeapSize() - nativeHeapStartSize) + "Kb");
             mRecorder.record(end - start, getJavaHeapSize() - javaHeapStartSize, getNativeHeapSize() - nativeHeapStartSize);
         }
+    }
+
+    public long getCurrentTime(){
+        return System.currentTimeMillis();
     }
 
     public long getJavaHeapSize() {
@@ -126,21 +143,4 @@ public class MainActivity extends Activity {
         return Debug.getNativeHeapSize() / 1000;
     }
 
-//    public void count() {
-//        count++;
-//        if (count >= 8) {
-//            Log.i(TAG, "MyListener->count --info log-- complete! success: " + (8 - failed) + " fail: " + failed);
-//            end = System.currentTimeMillis();
-//            Log.i(TAG, "MyListener->count --info log-- total time: " + (end - start));
-//            Log.i(TAG, "MyListener->count --info log-- native heap size change" + Debug.getNativeHeapAllocatedSize() / 1000 + "/" + Debug.getNativeHeapSize() / 1000);
-//            Log.i(TAG, "MyListener->count --info log-- java heap size " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1000);
-//            long nativeSize = Debug.getNativeHeapSize() / 1000;
-//            long javaSize = Runtime.getRuntime().totalMemory() / 1000 - Runtime.getRuntime().freeMemory() / 1000;
-//            Log.i(TAG, "MyListener->count --info log-- native heap size change: " + (nativeSize - nativeHeapStartSize));
-//            Log.i(TAG, "MyListener->count --info log-- java heap size change: " + (javaSize - javaHeapStartSize));
-//            offset++;
-//            count = 0;
-//            failed = 0;
-//        }
-//    }
 }
