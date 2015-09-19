@@ -14,14 +14,15 @@ public abstract class Loader {
     private static final String TAG = "Loader";
 
     protected String[] urls = {
-            "http://i1.tietuku.com/3b45754d9bbadd9e.png",
-            "http://i1.tietuku.com/c19cbb37282582ee.png",
-            "http://i1.tietuku.com/d6248b8148174547.png",
-            "http://i1.tietuku.com/4c556b2e77cc0c18.png",
-            "http://i1.tietuku.com/f7e2aabbb2807fd9.png",
-            "http://i1.tietuku.com/ea463543e6750b79.jpg",
-            "http://i1.tietuku.com/8f9e99ce28cf3161.png",
-            "http://i1.tietuku.com/7aa38cb091d48490.png"};
+        "http://i.imgur.com/x8P4vQBl.jpg",
+        "http://i.imgur.com/iPlS1VYl.jpg",
+        "http://i.imgur.com/c74rqsCl.jpg",
+        "http://i.imgur.com/96C2rSjl.jpg",
+        "http://i.imgur.com/0ZmMlKul.jpg",
+        "http://i.imgur.com/28lzY1yl.jpg",
+        "http://i.imgur.com/C0vahU8l.jpg",
+        "http://i.imgur.com/PtveszVl.jpg"
+    };
 
     public interface LoaderCallback {
         void onStart();

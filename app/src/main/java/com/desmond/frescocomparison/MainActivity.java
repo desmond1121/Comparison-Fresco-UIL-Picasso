@@ -17,6 +17,8 @@ import com.desmond.frescocomparison.loader.Loader;
 import com.desmond.frescocomparison.loader.PicassoLoader;
 import com.desmond.frescocomparison.loader.UILLoader;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +74,10 @@ public class MainActivity extends Activity {
         });
 
         mRecorder.record(0, 0, 0);
+    }
+
+    private void initFresco(){
+
     }
 
     private void initLayouts() {

@@ -1,73 +1,97 @@
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout android:id="@+id/main_container"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_container"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:columnCount="2"
-    android:layout_row="4">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            android:columnCount="2">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        fresco:actualImageScaleType="fitXY"
-        android:layout_margin="5dp"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_column="0"
-        android:layout_row="0"/>
+        android:layout_marginBottom="5dp"
+        android:layout_row="0"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_android_purple_300_48dp"
+        fresco:placeholderImageScaleType="centerInside"
+        fresco:failureImage="@drawable/fail"/>
 
     <com.facebook.drawee.view.SimpleDraweeView
-        fresco:actualImageScaleType="fitXY"
-        android:layout_margin="5dp"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_column="1"
-        android:layout_row="0"/>
+        android:layout_marginBottom="5dp"
+        android:layout_row="0"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_android_purple_300_48dp"
+        fresco:placeholderImageScaleType="centerInside"
+        fresco:failureImage="@drawable/fail"/>
 
     <com.facebook.drawee.view.SimpleDraweeView
-        fresco:actualImageScaleType="fitXY"
-        android:layout_margin="5dp"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_column="0"
-        android:layout_row="1"/>
+        android:layout_marginBottom="5dp"
+        android:layout_row="1"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_android_purple_300_48dp"
+        fresco:placeholderImageScaleType="centerInside"
+        fresco:failureImage="@drawable/fail"/>
 
     <com.facebook.drawee.view.SimpleDraweeView
-        fresco:actualImageScaleType="fitXY"
-        android:padding="5dp"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_column="1"
-        android:layout_row="1"/>
+        android:layout_marginBottom="5dp"
+        android:layout_row="1"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_android_purple_300_48dp"
+        fresco:placeholderImageScaleType="centerInside"
+        fresco:failureImage="@drawable/fail"/>
 
     <com.facebook.drawee.view.SimpleDraweeView
-        fresco:actualImageScaleType="fitXY"
-        android:layout_margin="5dp"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_column="0"
-        android:layout_row="2"/>
+        android:layout_marginBottom="5dp"
+        android:layout_row="2"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_android_purple_300_48dp"
+        fresco:placeholderImageScaleType="centerInside"
+        fresco:failureImage="@drawable/fail"/>
 
     <com.facebook.drawee.view.SimpleDraweeView
-        fresco:actualImageScaleType="fitXY"
-        android:layout_margin="5dp"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_column="1"
-        android:layout_row="2"/>
+        android:layout_marginBottom="5dp"
+        android:layout_row="2"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_android_purple_300_48dp"
+        fresco:placeholderImageScaleType="centerInside"
+        fresco:failureImage="@drawable/fail"/>
 
     <com.facebook.drawee.view.SimpleDraweeView
-        fresco:actualImageScaleType="fitXY"
-        android:layout_margin="5dp"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_column="0"
-        android:layout_row="3"/>
+        android:layout_marginBottom="5dp"
+        android:layout_row="3"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_android_purple_300_48dp"
+        fresco:placeholderImageScaleType="centerInside"
+        fresco:failureImage="@drawable/fail"/>
 
     <com.facebook.drawee.view.SimpleDraweeView
-        fresco:actualImageScaleType="fitXY"
-        android:layout_margin="5dp"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_column="1"
-        android:layout_row="3"/>
+        android:layout_marginBottom="5dp"
+        android:layout_row="3"
+        fresco:actualImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_android_purple_300_48dp"
+        fresco:placeholderImageScaleType="centerInside"
+        fresco:failureImage="@drawable/fail"/>
 
 </GridLayout>

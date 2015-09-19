@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
+import com.desmond.frescocomparison.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -27,6 +28,8 @@ public class UILLoader extends Loader{
         mImageLoader = ImageLoader.getInstance();
         mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
         mOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.ic_android_purple_300_48dp)
+                .showImageOnFail(R.drawable.fail)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();

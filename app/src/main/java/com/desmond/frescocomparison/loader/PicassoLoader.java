@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
+import com.desmond.frescocomparison.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +37,10 @@ public class PicassoLoader extends Loader{
         for(int i=0; i<8; i++){
             view = (ImageView) mGridLayout.getChildAt(i);
             if(i==0)mLoaderCallback.onStart();
-            mPicasso.load(urls[i]).into(view, new MyCallback());
+            mPicasso.load(urls[i])
+                    .placeholder(R.drawable.ic_android_purple_300_48dp)
+                    .error(R.drawable.fail)
+                    .into(view, new MyCallback());
         }
     }
 

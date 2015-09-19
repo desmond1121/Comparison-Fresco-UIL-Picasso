@@ -9,12 +9,15 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 /**
  * Created by Jiayi Yao on 2015/9/18.
  */
-public class FrescoLoader extends Loader{
+public class FrescoLoader extends Loader {
     DraweeController mDraweeController;
 
     public FrescoLoader(Context context, LoaderCallback callback) {
@@ -27,13 +30,21 @@ public class FrescoLoader extends Loader{
         super.loadImage(layout);
 
         SimpleDraweeView view;
-        for(int i=0; i<8; i++){
-            view = (SimpleDraweeView)layout.getChildAt(i);
+        for (int i = 0; i < 8; i++) {
+            view = (SimpleDraweeView) layout.getChildAt(i);
+            ImageRequest request = ImageRequestBuilder
+                    .newBuilderWithSource(Uri.parse(urls[i]))
+                    .setResizeOptions(
+                            new ResizeOptions(view.getLayoutParams().width, view.getLayoutParams().height))
+                    .setProgressiveRenderingEnabled(true)
+                    .build();
+
             mDraweeController = Fresco.newDraweeControllerBuilder()
+                    .setImageRequest(request)
                     .setControllerListener(new MyListener())
                     .setOldController(view.getController())
-                    .setUri(Uri.parse(urls[i]))
                     .build();
+
             view.setController(mDraweeController);
         }
     }
@@ -48,14 +59,14 @@ public class FrescoLoader extends Loader{
 
         @Override
         public void onSubmit(String s, Object o) {
-            if(count == 0)mLoaderCallback.onStart();
-            count ++;
+            if (count == 0) mLoaderCallback.onStart();
+            count++;
         }
 
         @Override
         public void onFinalImageSet(String s, ImageInfo imageInfo, Animatable animatable) {
             success++;
-            if(success + fail == 8){
+            if (success + fail == 8) {
                 mLoaderCallback.onFinish(success, fail);
                 success = 0;
                 fail = 0;
@@ -76,7 +87,7 @@ public class FrescoLoader extends Loader{
         @Override
         public void onFailure(String s, Throwable throwable) {
             fail++;
-            if(success + fail == 8){
+            if (success + fail == 8) {
                 mLoaderCallback.onFinish(success, fail);
                 success = 0;
                 fail = 0;
