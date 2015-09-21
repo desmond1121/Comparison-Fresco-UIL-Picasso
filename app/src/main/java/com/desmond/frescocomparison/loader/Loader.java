@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by Jiayi Yao on 2015/9/18.
  */
 public abstract class Loader {
-    private static final String TAG = "Loader";
+    protected boolean isLoading = false;
 
     protected String[] urls = {
         "http://i.imgur.com/x8P4vQBl.jpg",
@@ -62,4 +62,6 @@ public abstract class Loader {
             mGridLayout.getChildAt(i).setVisibility(visible ? View.VISIBLE : View.GONE);
         }
     }
+
+    public abstract void clearCache();
 }

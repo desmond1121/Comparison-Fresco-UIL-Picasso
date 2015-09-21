@@ -18,7 +18,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
  * Created by Jiayi Yao on 2015/9/18.
  */
 public class UILLoader extends Loader{
-    private static final String TAG = "UILLoader";
 
     private ImageLoader mImageLoader;
     private DisplayImageOptions mOptions;
@@ -33,6 +32,12 @@ public class UILLoader extends Loader{
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
+    }
+
+    @Override
+    public void clearCache() {
+        mImageLoader.clearMemoryCache();
+        mImageLoader.clearDiskCache();
     }
 
     @Override

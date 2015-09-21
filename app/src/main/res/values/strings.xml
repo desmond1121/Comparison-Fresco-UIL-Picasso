@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    
+
     <string-array name="loader_type">
         <item>None</item>
         <item>Fresco</item>

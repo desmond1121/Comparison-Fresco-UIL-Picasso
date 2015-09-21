@@ -5,11 +5,14 @@ import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.widget.GridLayout;
 
+import com.facebook.cache.common.CacheKey;
+import com.facebook.common.internal.AndroidPredicates;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
@@ -22,7 +25,14 @@ public class FrescoLoader extends Loader {
 
     public FrescoLoader(Context context, LoaderCallback callback) {
         super(context, callback);
+    }
 
+    @Override
+    public void clearCache() {
+        ImagePipelineFactory factory = ImagePipelineFactory.getInstance();
+        factory.getBitmapMemoryCache().removeAll(null);
+        factory.getEncodedMemoryCache().removeAll(null);
+        factory.getMainDiskStorageCache().clearAll();
     }
 
     @Override

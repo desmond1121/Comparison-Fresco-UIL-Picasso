@@ -4,21 +4,32 @@ import android.content.Context;
 import android.net.Uri;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.desmond.frescocomparison.R;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
 /**
  * Created by Jiayi Yao on 2015/9/19.
  */
 public class PicassoLoader extends Loader{
-    private static final String TAG = "PicassoLoader";
     private Picasso mPicasso;
+    private LruCache mCache;
 
     public PicassoLoader(Context context, LoaderCallback callback) {
         super(context, callback);
-        mPicasso = Picasso.with(context);
+        mCache = new LruCache(context);
+
+        mPicasso = new Picasso.Builder(context)
+                .memoryCache(mCache)
+                .build();
+    }
+
+    @Override
+    public void clearCache() {
+        if(mCache != null) mCache.clear();
     }
 
     @Override
@@ -32,6 +43,7 @@ public class PicassoLoader extends Loader{
     @Override
     public void loadImage(GridLayout layout) {
         super.loadImage(layout);
+        mPicasso = Picasso.with(mContext);
 
         ImageView view;
         for(int i=0; i<8; i++){

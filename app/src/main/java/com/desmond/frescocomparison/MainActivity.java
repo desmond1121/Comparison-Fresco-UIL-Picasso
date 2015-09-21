@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.Spinner;
@@ -43,11 +44,13 @@ public class MainActivity extends Activity {
     private Recorder mRecorder = null;
     private Runtime mRuntime = null;
     private Handler mHandler = null;
+    private Button clearCacheButton = null;
+    private boolean isFinish = false;
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
             mRecorder.record(getCurrentTime()-start, getJavaHeapSize()-javaHeapStartSize, getNativeHeapSize()-nativeHeapStartSize);
-            mHandler.postDelayed(this, 500);
+            if(!isFinish)mHandler.postDelayed(this, 500);
         }
     };
 
@@ -65,26 +68,39 @@ public class MainActivity extends Activity {
 
         initLayouts();
         initLoaders();
-
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        View sContainer = findViewById(R.id.spinner_container);
+        Spinner spinner = (Spinner) sContainer.findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mHandler.removeCallbacks(mRunnable);
-                if(lastPosition!=0)mLoaders.get(lastPosition-1).stop();
+                if (lastPosition != 0) mLoaders.get(lastPosition - 1).stop();
+                else if(position == lastPosition)return;
                 container.removeAllViews();
                 lastPosition = position;
                 mRecorder.record(0, 0, 0);
-                if(position == 0) return;
+                if (position == 0) return;
 
-                container.addView(mLayouts.get(position-1));
-                mLoaders.get(position-1).loadImage(mLayouts.get(position-1));
+                container.addView(mLayouts.get(position - 1));
+                mLoaders.get(position - 1).loadImage(mLayouts.get(position - 1));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                mHandler.removeCallbacks(mRunnable);
+            }
+        });
 
+        clearCacheButton = (Button) sContainer.findViewById(R.id.button);
+        clearCacheButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < 3; i++) {
+                    mLoaders.get(i).clearCache();
+                }
+                Runtime.getRuntime().gc();
+                mRecorder.record(0, 0, 0);
             }
         });
 
@@ -114,14 +130,18 @@ public class MainActivity extends Activity {
 
         @Override
         public void onStart() {
+            clearCacheButton.setEnabled(false);
             start = getCurrentTime();
             javaHeapStartSize = getJavaHeapSize();
             nativeHeapStartSize = getNativeHeapSize();
             mHandler.postDelayed(mRunnable, 500);
+            isFinish = false;
         }
 
         @Override
         public void onFinish(int success, int fail) {
+            clearCacheButton.setEnabled(true);
+            isFinish = true;
             end = getCurrentTime();
             mHandler.removeCallbacks(mRunnable);
             Log.i(TAG, "MyLoaderCallback->onFinish --info log-- " + tag + " total time: " + (end - start) + "ms");
